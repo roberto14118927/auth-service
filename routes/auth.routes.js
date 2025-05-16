@@ -43,7 +43,7 @@ router.post('/register', controller.register);
  *       200:
  *         description: Token JWT
  */
-router.post('/login-auth', controller.login);
+router.post('/login', controller.login);
 
 router.get('/protected', authMiddleware, (req, res) => {
   res.json({ message: `Hola usuario ${req.userId}` });

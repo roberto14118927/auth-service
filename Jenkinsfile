@@ -11,7 +11,7 @@ pipeline {
         DEV_IP = '3.95.238.130'
         QA_IP  = '22.22.22.22'
         PROD_IP = '11.11.11.11'
-        REMOTE_PATH = '/home/ubuntu/node-healthcheck'
+        REMOTE_PATH = '/home/ubuntu/auth-service'
     }
 
     stages {
@@ -31,7 +31,7 @@ pipeline {
                              env.ACTUAL_BRANCH == 'qa'      ? QA_IP :
                              env.ACTUAL_BRANCH == 'main'    ? PROD_IP : null
 
-                    def pm2_name = "${env.ACTUAL_BRANCH}-health"
+                    def pm2_name = "${env.ACTUAL_BRANCH}-auth"
 
                     if (ip == null) {
                         error "Branch ${env.ACTUAL_BRANCH} no está configurada para despliegue."
@@ -56,14 +56,14 @@ pipeline {
 
                         echo "📁 Verificando carpeta de app..."
                         if [ ! -d "$REMOTE_PATH/.git" ]; then
-                            git clone https://github.com/roberto14118927/node-healthcheck.git $REMOTE_PATH
+                            git clone https://github.com/roberto14118927/auth-service.git $REMOTE_PATH
                         fi
 
                         echo "🔁 Pull y deploy..."
                         cd $REMOTE_PATH &&
                         git pull origin ${env.ACTUAL_BRANCH} &&
                         npm ci &&
-                        pm2 restart ${pm2_name} || pm2 start server.js --name ${pm2_name}
+                        pm2 restart ${pm2_name} || pm2 start app.js --name ${pm2_name}
                     '
                     """
                 }

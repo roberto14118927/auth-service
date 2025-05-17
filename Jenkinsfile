@@ -10,7 +10,7 @@ pipeline {
         SSH_KEY = credentials('ssh-key-ec2')
         DEV_IP = '3.95.238.130'
         QA_IP  = '22.22.22.22'
-        PROD_IP = '11.11.11.11'
+        PROD_IP = '11.11.11.111'
         REMOTE_PATH = '/home/ubuntu/auth-service'
     }
 
